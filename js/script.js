@@ -1,7 +1,7 @@
-// Milestone 1:
+// Milestone 1: *************************************
 // - Definire un array di oggetti; ogni oggetto rappresenta un'icona, che è caratterizzata da: nome, prefisso, tipo e famiglia.
 // - Utilizzando la funzione forEach e il template literal, visualizzare in pagina tutte le icone con il proprio nome.
-const iconsArray = [
+const allIcons = [
   {nome:'cat', prefisso:'fa-', tipo:'animal', famiglia:'fas '},
   {nome:'crow', prefisso:'fa-', tipo:'animal', famiglia:'fas '},
   {nome:'dog', prefisso:'fa-', tipo:'animal', famiglia:'fas '},
@@ -22,7 +22,7 @@ const iconsArray = [
 
 const icons = document.getElementById('icons');
 
-iconsArray.forEach((element) => {
+allIcons.forEach((element) => {
   // destructuring
   const {nome, prefisso, tipo, famiglia} = element;
   icons.innerHTML +=
@@ -32,16 +32,14 @@ iconsArray.forEach((element) => {
   </div>`;
 });
 
-// Milestone 2:
+// Milestone 2: *************************************
 // - Definire un array di colori e associare ad ogni tipo di icona un colore.
 // - Visualizzare le icone di colore diverso in base al tipo.
-
-// let arrayColors = [];
 let arrayTypes = [];
-
+// let arrayColors = []; <<??
 icons.innerHTML = '';
 
-iconsArray.forEach((element) => {
+allIcons.forEach((element) => {
   // destructuring
   const {nome, prefisso, tipo, famiglia} = element;
 
@@ -55,21 +53,40 @@ iconsArray.forEach((element) => {
     element.colore = 'blue';
   }
 
-  if (!arrayTypes.includes(element.tipo)) {
-    arrayTypes.push(element.tipo);
-  };
-
   icons.innerHTML +=
   `<div class="icon-container">
     <div class="single-icon" style="color:${element.colore}"><i class="${famiglia}${prefisso}${nome}"></i></div>
     <div class="icon-name">${nome}</div>
   </div>`;
+
+  // creo un array dei tipi di icone
+  if (!arrayTypes.includes(element.tipo)) {
+    arrayTypes.push(element.tipo);
+  };
+
 });
 
-// Milestone 3:
+// Milestone 3:**************************************
 // - Aggiungere una select per filtrare le icone in base al tipo.
 // - Popolare le options della select dinamicamente e, ogni volta che cambia il valore selezionato, visualizzare le icone corrispondenti.
 const typeOption = document.getElementById('type-select');
+const selector = $('#type-select');
+let animalIcons;
+let fruitIcons;
+let personIcons;
+
+function showIcon(nameArray) {
+  icons.innerHTML = '';
+  nameArray.forEach((element) => {
+    // destructuring
+    const {nome, prefisso, tipo, famiglia} = element;
+    icons.innerHTML +=
+    `<div class="icon-container">
+      <div class="single-icon" style="color:${element.colore}"><i class="${famiglia}${prefisso}${nome}"></i></div>
+      <div class="icon-name">${nome}</div>
+    </div>`;
+  });
+};
 
 // aggiungo una option per ogni tipo di icona
 arrayTypes.forEach((element) => {
@@ -77,61 +94,31 @@ arrayTypes.forEach((element) => {
   `<option value="${element}">${element}</option>`
 });
 
-const selector = $('#type-select');
-let animalIcons;
-let fruitIcons;
-let personIcons;
-
 selector.change(function() {
-  // icons.innerHTML = '';
   let valore = $(this).val();
 
+  if (valore === 'all') {
+    showIcon(allIcons);
+  }
+
   if (valore === 'animal') {
-    animalIcons = iconsArray.filter((element, index, array) => {
+    animalIcons = allIcons.filter((element, index, array) => {
       return element.tipo === 'animal'
     });
-    icons.innerHTML = '';
-    animalIcons.forEach((element) => {
-      // destructuring
-      const {nome, prefisso, tipo, famiglia} = element;
-      icons.innerHTML +=
-      `<div class="icon-container">
-        <div class="single-icon" style="color:${element.colore}"><i class="${famiglia}${prefisso}${nome}"></i></div>
-        <div class="icon-name">${nome}</div>
-      </div>`;
-    });
+    showIcon(animalIcons);
   }
 
   if (valore === 'fruit') {
-    fruitIcons = iconsArray.filter((element, index, array) => {
+    fruitIcons = allIcons.filter((element, index, array) => {
       return element.tipo === 'fruit'
     });
-    icons.innerHTML = '';
-    fruitIcons.forEach((element) => {
-      // destructuring
-      const {nome, prefisso, tipo, famiglia} = element;
-      icons.innerHTML +=
-      `<div class="icon-container">
-        <div class="single-icon" style="color:${element.colore}"><i class="${famiglia}${prefisso}${nome}"></i></div>
-        <div class="icon-name">${nome}</div>
-      </div>`;
-    });
+    showIcon(fruitIcons);
   }
 
   if (valore === 'person') {
-    personIcons = iconsArray.filter((element, index, array) => {
+    personIcons = allIcons.filter((element, index, array) => {
       return element.tipo === 'person'
     });
-    icons.innerHTML = '';
-    personIcons.forEach((element) => {
-      // destructuring
-      const {nome, prefisso, tipo, famiglia} = element;
-      icons.innerHTML +=
-      `<div class="icon-container">
-        <div class="single-icon" style="color:${element.colore}"><i class="${famiglia}${prefisso}${nome}"></i></div>
-        <div class="icon-name">${nome}</div>
-      </div>`;
-    });
-
+    showIcon(personIcons);
   }
-})
+});
