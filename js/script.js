@@ -36,21 +36,23 @@ allIcons.forEach((element) => {
 // - Definire un array di colori e associare ad ogni tipo di icona un colore.
 // - Visualizzare le icone di colore diverso in base al tipo.
 let arrayTypes = [];
-// let arrayColors = []; <<??
+let arrayColors = ['green', 'red', 'blue'];
 icons.innerHTML = '';
 
 allIcons.forEach((element) => {
   // destructuring
-  const {nome, prefisso, tipo, famiglia} = element;
+  const {nome, prefisso, tipo, famiglia} = element
 
-  if (tipo === 'animal') {
-    element.colore = 'green';
-  }
-  if (tipo === 'fruit') {
-    element.colore = 'red';
-  }
-  if (tipo === 'person') {
-    element.colore = 'blue';
+  // creo un array dei tipi di icone
+  if (!arrayTypes.includes(element.tipo)) {
+    arrayTypes.push(element.tipo);
+  };
+  // indexArrayTypes indica l'indice nell'arrayTypes del 'tipo' di element
+  const indexArrayTypes = arrayTypes.indexOf(element.tipo);
+  console.log(indexArrayTypes);
+  // se indexArrayTypes esiste allora aggiungo a element la chiave colore il cui valore è lo stesso index nell'array dei colori
+  if (indexArrayTypes !== -1) {
+    element.colore = arrayColors[indexArrayTypes];
   }
 
   icons.innerHTML +=
@@ -58,11 +60,6 @@ allIcons.forEach((element) => {
     <div class="single-icon" style="color:${element.colore}"><i class="${famiglia}${prefisso}${nome}"></i></div>
     <div class="icon-name">${nome}</div>
   </div>`;
-
-  // creo un array dei tipi di icone
-  if (!arrayTypes.includes(element.tipo)) {
-    arrayTypes.push(element.tipo);
-  };
 
 });
 
@@ -75,7 +72,7 @@ let animalIcons;
 let fruitIcons;
 let personIcons;
 
-function showIcon(nameArray) {
+function showIcons(nameArray) {
   icons.innerHTML = '';
   nameArray.forEach((element) => {
     // destructuring
@@ -98,27 +95,27 @@ selector.change(function() {
   let valore = $(this).val();
 
   if (valore === 'all') {
-    showIcon(allIcons);
-  }
+    showIcons(allIcons);
+  };
 
   if (valore === 'animal') {
     animalIcons = allIcons.filter((element, index, array) => {
       return element.tipo === 'animal'
     });
-    showIcon(animalIcons);
-  }
+    showIcons(animalIcons);
+  };
 
   if (valore === 'fruit') {
     fruitIcons = allIcons.filter((element, index, array) => {
       return element.tipo === 'fruit'
     });
-    showIcon(fruitIcons);
-  }
+    showIcons(fruitIcons);
+  };
 
   if (valore === 'person') {
     personIcons = allIcons.filter((element, index, array) => {
       return element.tipo === 'person'
     });
-    showIcon(personIcons);
+    showIcons(personIcons);
   }
 });
