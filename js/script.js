@@ -49,7 +49,6 @@ allIcons.forEach((element) => {
   };
   // indexArrayTypes indica l'indice nell'arrayTypes del 'tipo' di element
   const indexArrayTypes = arrayTypes.indexOf(element.tipo);
-  console.log(indexArrayTypes);
   // se indexArrayTypes esiste allora aggiungo a element la chiave colore il cui valore è lo stesso index nell'array dei colori
   if (indexArrayTypes !== -1) {
     element.colore = arrayColors[indexArrayTypes];
@@ -94,28 +93,16 @@ arrayTypes.forEach((element) => {
 selector.change(function() {
   let valore = $(this).val();
 
+  // creo un array filtrato per ogni 'tipo'
+  let filteredIcons = allIcons.filter((element) => {
+    return element.tipo === valore;
+  });
+
+  // invoco la funzione con argomento l'array filtrato
+  showIcons(filteredIcons);
+
+  // se però il valore dell'option è all mostro tutte le icone
   if (valore === 'all') {
     showIcons(allIcons);
   };
-
-  if (valore === 'animal') {
-    animalIcons = allIcons.filter((element, index, array) => {
-      return element.tipo === 'animal'
-    });
-    showIcons(animalIcons);
-  };
-
-  if (valore === 'fruit') {
-    fruitIcons = allIcons.filter((element, index, array) => {
-      return element.tipo === 'fruit'
-    });
-    showIcons(fruitIcons);
-  };
-
-  if (valore === 'person') {
-    personIcons = allIcons.filter((element, index, array) => {
-      return element.tipo === 'person'
-    });
-    showIcons(personIcons);
-  }
 });
